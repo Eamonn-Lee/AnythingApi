@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+from BFS_search import find
 
 def scrape_dict(url):
     rsp = requests.get(url)
@@ -25,7 +26,7 @@ def scrape_dict(url):
                 for li in element.find_all('li'):
                     data[curr_heading].append(li.get_text(strip=True))
 
-        
+
         for key in data: 
             if len(data[key]) == 1: #single item to strsing
                 data[key] = data[key][0]
@@ -39,9 +40,17 @@ def scrape_dict(url):
     
 
 
-url = "https://hololive.wiki/wiki/Hoshimachi_Suisei"
+url = "https://finance.yahoo.com/quote/NVDA/"
+keyword = "PE" #2020[edit]
+
 scrape = scrape_dict(url)
 
 if scrape:
     pretty_data = json.dumps(scrape, indent=4)
     print(pretty_data)
+
+    #cannot find a free ai api
+
+
+    new_json = find(pretty_data, keyword)
+    #print(new_json)
